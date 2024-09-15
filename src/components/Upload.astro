@@ -1,0 +1,42 @@
+---
+import { Resource } from "sst";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+// noinspection TypeScriptUnresolvedReference
+const bucket = Resource.MyBucket.name;
+
+const putObjectCommand = new PutObjectCommand({
+  Key: crypto.randomUUID(),
+  Bucket: bucket
+});
+
+const client = new S3Client();
+
+const uploadUrl = await getSignedUrl(new S3Client(), putObjectCommand);
+---
+
+<form action={uploadUrl}>
+  <input name="file" type="file" accept="image/png, image/jpeg" />
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+  const form = document.querySelector("form");
+  form!.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const file = form!.file.files?.[0]!;
+
+    await fetch(form!.action, {
+      body: file,
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+        "Content-Disposition": `attachment; filename="${file.name}"`,
+      }
+    });
+
+    window.location.reload();
+  });
+</script>

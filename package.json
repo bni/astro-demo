@@ -1,0 +1,28 @@
+{
+  "name": "astro-demo",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro check && astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/s3-request-presigner": "^3.651.1",
+    "imagesloaded": "^5.0.0",
+    "masonry-layout": "^4.2.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@types/imagesloaded": "^4.1.6",
+    "@types/masonry-layout": "^4.2.8",
+    "@types/node": "^20.16.5",
+    "astro": "^4.15.6",
+    "astro-sst": "2.43.5",
+    "sst": "3.1.10",
+    "typescript": "^5.6.2"
+  }
+}
