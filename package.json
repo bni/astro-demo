@@ -10,10 +10,13 @@
     "start": "astro dev"
   },
   "dependencies": {
+    "@astrojs/vue": "^4.5.0",
     "@aws-sdk/client-s3": "^3.651.1",
     "@aws-sdk/s3-request-presigner": "^3.651.1",
     "imagesloaded": "^5.0.0",
-    "masonry-layout": "^4.2.2"
+    "masonry-layout": "^4.2.2",
+    "vue": "^3.5.5",
+    "vue-upload-component": "^3.1.17"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.3",

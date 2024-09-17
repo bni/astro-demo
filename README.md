@@ -1,2 +1,6 @@
 # SST + Astro + Vue Demo
-SST + Astro + Vue
+
+| Environment | Command                           |
+|-------------|-----------------------------------|
+| Local       | npx sst dev                       |
+| Deploy      | npx sst deploy --stage production |

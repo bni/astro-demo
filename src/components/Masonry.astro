@@ -15,9 +15,15 @@ const listCommand = new ListObjectsV2Command({
 // noinspection TypeScriptValidateTypes
 const { Contents } = await client.send(listCommand);
 
+// Sort
+const sortedContents = Contents!.sort((a, b) => (
+    b.LastModified?.getTime() ?? 0) - (a.LastModified?.getTime() ?? 0
+  )
+);
+
 const urls = [];
 
-for (const content of Contents!) {
+for (const content of sortedContents) {
   const getObjectCommand = new GetObjectCommand({
     Bucket: bucket,
     Key: content.Key
