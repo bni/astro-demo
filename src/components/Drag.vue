@@ -1,11 +1,9 @@
 <template>
-  <div class="upload">
-    <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
-      <h3>Drop files to upload</h3>
-    </div>
+  <div class="upload drop-active flex items-center justify-center">
+
+    <p class="text-stone-900 text-xl p-2 m-10">Drop image here</p>
 
     <file-upload
-      class="btn btn-primary"
       v-bind:put-action="uploadUrl"
       :multiple="false"
       :drop="true"
@@ -15,32 +13,6 @@
     </file-upload>
   </div>
 </template>
-
-<style>
-.drop-active {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  position: fixed;
-  z-index: 9999;
-  opacity: .6;
-  text-align: center;
-  background: #444;
-}
-
-.drop-active h3 {
-  margin: -.5em 0 0;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
-  font-size: 40px;
-  color: #fff;
-  padding: 0;
-}
-</style>
 
 <script>
 import FileUpload from 'vue-upload-component';
