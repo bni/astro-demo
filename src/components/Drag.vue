@@ -1,14 +1,15 @@
 <template>
-  <div class="upload drop-active flex items-center justify-center">
+  <div class="drop-active flex items-center justify-center">
 
     <p class="text-stone-900 text-xl p-2 m-10">Drop image here</p>
 
     <file-upload
-      v-bind:put-action="uploadUrl"
+      v-bind:put-action="uploadLink"
       :multiple="false"
       :drop="true"
       :drop-directory="false"
       @input-file="inputFile"
+      @input-filter="inputFilter"
       ref="upload">
     </file-upload>
   </div>
@@ -18,7 +19,7 @@
 import FileUpload from 'vue-upload-component';
 
 export default {
-  props: ['uploadUrl'],
+  props: ['uploadLink'],
   components: {
     FileUpload
   },
@@ -29,36 +30,22 @@ export default {
   },
   methods: {
     inputFile(newFile, oldFile) {
-      if (newFile && !oldFile) {
-        console.log('Add file', newFile.active, newFile);
-      }
-
-      if (newFile && oldFile) {
-        console.log('Update file', newFile.active, newFile);
-
-        if (newFile.active !== oldFile.active) {
-          console.log('Start upload', newFile.active, newFile)
-        }
-
-        if (newFile.progress !== oldFile.progress) {
-          console.log('Progress', newFile.progress, newFile)
-        }
-
-        if (newFile.error !== oldFile.error) {
-          console.log('Error', newFile.error, newFile)
-        }
-
-        if (newFile.success !== oldFile.success) {
-          console.log('Success!!', newFile.success, newFile);
-
-          window.location.reload();
-        }
-      }
-
-      // Automatic upload
       if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
         if (!this.$refs.upload.active) {
           this.$refs.upload.active = true
+        }
+      }
+
+      if (newFile && oldFile) {
+        if (newFile.success !== oldFile.success) {
+          window.location.reload();
+        }
+      }
+    },
+    inputFilter(newFile, oldFile, prevent) {
+      if (newFile && !oldFile) {
+        if (!/\.(gif|jpg|jpeg|png)$/i.test(newFile.name)) {
+          return prevent();
         }
       }
     }

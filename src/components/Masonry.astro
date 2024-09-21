@@ -1,53 +1,18 @@
 ---
-import { Resource } from "sst";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { S3Client, ListObjectsV2Command, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import { buildImageLinks } from "./buildImageLinks";
+import { buildUploadLink } from "./buildUploadLink";
 import Drag from '../components/Drag.vue';
 
-const bucket = Resource.MyBucket.name;
+const imageLinks: any[] = await buildImageLinks();
 
-const client = new S3Client();
-
-const listCommand = new ListObjectsV2Command({
-  Bucket: bucket
-});
-
-const urls = [];
-
-const { Contents } = await client.send(listCommand);
-
-if (Contents) {
-  const sortedContents = Contents.sort((a, b) => (
-      b.LastModified?.getTime() ?? 0) - (a.LastModified?.getTime() ?? 0
-    )
-  );
-
-
-  for (const content of sortedContents) {
-    const getObjectCommand = new GetObjectCommand({
-      Bucket: bucket,
-      Key: content.Key
-    });
-
-    const url = await getSignedUrl(new S3Client(), getObjectCommand);
-
-    urls.push(url);
-  }
-}
-
-const putObjectCommand = new PutObjectCommand({
-  Key: crypto.randomUUID(),
-  Bucket: bucket
-});
-
-const uploadUrl = await getSignedUrl(client, putObjectCommand);
+const uploadLink: string = await buildUploadLink();
 ---
 <div class="columns-4 space-y-5">
   <div class="bg-neutral-400 rounded-md shadow-md">
-    <Drag client:only="vue" uploadUrl={uploadUrl}/>
+    <Drag client:only="vue" uploadLink={uploadLink}/>
   </div>
 
-  {urls.map((url) => (
-    <div><img class="rounded-md shadow-md" src={url} alt="" loading="lazy"></div>
+  {imageLinks.map((link) => (
+    <div><img class="rounded-md shadow-md" src={link} alt="" loading="lazy"></div>
   ))}
 </div>

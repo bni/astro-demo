@@ -4,3 +4,5 @@
 |-------------|-----------------------------------|
 | Local       | npx sst dev                       |
 | Deploy      | npx sst deploy --stage production |
+
+Try it:  https://d1nid5bkleluwc.cloudfront.net
